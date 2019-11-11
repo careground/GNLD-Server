@@ -19,43 +19,53 @@ router.post('/', async (req, res, next) => {
                 message: 'wrong email'
             });
         } else {
-            for (let i = 0; i < result.length; i++) {
+            if (result.length == 0) {
+                return res.status(401).send({
+                    message: 'wrong email'
+                });
+            } else {
+                for (let i = 0; i < result.length; i++) {
 
-                let temp = {
-                    user_idx: "",
-                    password: ""
+                    let temp = {
+                        user_idx: "",
+                        password: ""
+                    }
+                    temp.user_idx = result[i]._id;
+                    temp.password = result[i].password;
+
+                    data.push(temp);
                 }
-                temp.user_idx = result[i]._id;
-                temp.password = result[i].password;
 
-                data.push(temp);
-            }
-            console.log(data)
+                let decode_pw = hash.decoding(data[0].password);
 
-            let decode_pw = hash.decoding(data[0].password);
-            console.log(decode_pw);
-
-            await user.find({
-                password: decode_pw
-            }, function (err, obj) {
-                if (err) {
-                    res.status(401).send({
-                        message: 'wrong password'
-                    });
-                } else {
-                    const token = jwt.sign(data[0].user_idx);
-
-                    user.update({ _id: data[0].user_idx }, { $set: {'fcm_token' : fcm_token} }, function (err, output) {
-                        if (err) res.status(500).json({ error: 'database failure' });
-                        if (!output.n) return res.status(404).json({ error: 'user not found' });
-                        res.status(200).json({
-                            message: 'login success',
-                            token: token
+                await user.find({
+                    password: decode_pw
+                }, function (err, obj) {
+                    if (err) {
+                        res.status(401).send({
+                            message: 'wrong password'
                         });
-                    })
-                }
-            });
+                    } else {
+                        if (obj.length == 0) {
+                            res.status(401).send({
+                                message: 'wrong password'
+                            });
+                        } else {
+                            const token = jwt.sign(data[0].user_idx);
 
+                            user.update({ _id: data[0].user_idx }, { $set: { 'fcm_token': fcm_token } }, function (err, output) {
+                                if (err) res.status(500).json({ error: 'database failure' });
+                                if (!output.n) return res.status(404).json({ error: 'user not found' });
+                                res.status(200).json({
+                                    message: 'login success',
+                                    token: token
+                                });
+                            })
+                        }
+
+                    }
+                });
+            }
         }
     })
 });
