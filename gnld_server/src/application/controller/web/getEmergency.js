@@ -16,26 +16,38 @@ router.get('/', function (req, res) {
 				message: "get data fail"
 			});
 		} else {
-
-			for (let i = 0; i < result.length; i++) {
-
-			}
-			if (data) {
-				res.status(200).send({
-					message: "success",
-					data: data
-				});
-
-			} else {
-				res.status(405).send({
-					error: "Get data fail"
-				});
-
-			}
+			user.find({
+				_id : result.user_id
+			},async function(err, users){
+				if (err) {
+					return res.status(500).send({
+					  message: "get users'list fail"
+					});
+				  } else {
+					for (let i = 0; i < users.length; i++) {
+		
+						let temp = {
+						  name:"",
+						  birth : "",
+						  address : "",
+						  phone : "",
+						  emergency_phone : ""
+						}
+						temp.name = users[i].name;
+						temp.birth = users[i].birth;
+						temp.address = users[i].address;
+						temp.phone = users[i].phone;
+						temp.emergency_phone = users[i].emergency_phone;
+			  
+						data.push(temp);
+					  }
+					  res.status(200).send({
+						message: "success",
+						data : data
+					  });
+				  }
+			});
 		}
-	
-
-	
 	});
 }); //get
 

@@ -31,19 +31,47 @@ router.post('/', async (req, res, next) => {
                 if(pots.co_gas>=10){ co_gas_status = "위험";}
                 if(pots.fine_dust>=50){ fine_dust_status = "위험";}
                 if(co_gas_status == "위험" || soil_water_status == "위험" || fine_dust == "위험"){
-                    await monitor.create({
-                        admin_id : 1,
-                        user_id : pots.user_id,
-                        smart_pot_id : pots._id,
-                        degree : "위험"
-                    })
+                    await monitor.find({
+                        user_id : pots.user_id
+                    },async function (err, monitors) {
+                        if (err) {
+                            res.status(405).send({
+                                message: "fail"
+                            });
+                        }else{
+                            console.log(monitors)
+                            if(monitors.length == 0){
+                                await monitor.create({
+                                    admin_id : 1,
+                                    user_id : pots.user_id,
+                                    smart_pot_id : pots._id,
+                                    degree : "위험"
+                                });
+                            }else{
+                                console.log(monitors[0].user_id);
+                                monitor.deleteOne({
+                                    user_id : monitors[0].user_id
+                                }, async function(err, update){
+                                    if(err) 
+                                        return res.status(500).send({message: 'database failure'});
+                                   
+                                });
+                                await monitor.create({
+                                    admin_id : 1,
+                                    user_id : pots.user_id,
+                                    smart_pot_id : pots._id,
+                                    degree : "위험"
+                                });
+                            }
+                            res.status(201).send({
+                                message: "success",
+                                soil_water_status : soil_water_status,
+                                co_gas_status : co_gas_status,
+                                fine_dust_status : fine_dust_status
+                            });
+                        }
+                    });
                 }
-                res.status(201).send({
-                    message: "success",
-                    soil_water_status : soil_water_status,
-                    co_gas_status : co_gas_status,
-                    fine_dust_status : fine_dust_status
-                });
             }
         });
 

@@ -9,4 +9,8 @@ router.use('/list', getList);
 const getEmergency = require('./getEmergency');
 router.use('/emergency', getEmergency);
 
+//deleteEmergency
+const deleteEmergency = require('./deleteEmergency');
+router.use('/emergency', deleteEmergency);
+
 module.exports = router;
