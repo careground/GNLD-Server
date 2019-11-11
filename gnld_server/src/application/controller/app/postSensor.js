@@ -47,6 +47,7 @@ router.post('/', async (req, res, next) => {
                                     admin_id : 1,
                                     user_id : pots.user_id,
                                     smart_pot_id : pots._id,
+                                    degree : "위험",
                                     soil_water_status : soil_water_status,
                                     co_gas_status : co_gas_status,
                                     fine_dust_status : fine_dust_status
@@ -64,6 +65,7 @@ router.post('/', async (req, res, next) => {
                                     admin_id : 1,
                                     user_id : pots.user_id,
                                     smart_pot_id : pots._id,
+                                    degree : "위험",
                                     soil_water_status : soil_water_status,
                                     co_gas_status : co_gas_status,
                                     fine_dust_status : fine_dust_status

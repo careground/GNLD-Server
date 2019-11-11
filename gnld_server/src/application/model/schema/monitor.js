@@ -5,6 +5,7 @@ var monitorSchema = new Schema({
     admin_id : String,
     user_id : String,
     smart_pot_id : String,
+    degree : String,
     soil_water_status : String,
     co_gas_status : String,
     fine_dust_status : String,
