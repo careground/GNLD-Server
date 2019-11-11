@@ -81,10 +81,7 @@ router.post('/', async (req, res, next) => {
 
                 }
                 res.status(200).send({
-                    message: "success",
-                    soil_water_status: soil_water_status,
-                    co_gas_status: co_gas_status,
-                    fine_dust_status: fine_dust_status
+                    message: "success"
                 });
 
             }
