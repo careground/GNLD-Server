@@ -24,50 +24,33 @@ router.post('/', async (req, res, next) => {
                     message: 'wrong email'
                 });
             } else {
-                for (let i = 0; i < result.length; i++) {
+                console.log(1, result[0])
+                let decode_pw = hash.decoding(result[0].password);
+                console.log(2, decode_pw)
+                console.log(3, password)
+                
+                if (password == decode_pw) {
+                    const token = jwt.sign(result[0]._id);
 
-                    let temp = {
-                        user_idx: "",
-                        password: ""
-                    }
-                    temp.user_idx = result[i]._id;
-                    temp.password = result[i].password;
-
-                    data.push(temp);
+                    user.update({ _id: result[0]._id }, { $set: { 'fcm_token': fcm_token } }, function (err, output) {
+                        if (err) res.status(500).json({ error: 'database failure' });
+                        if (!output.n) return res.status(404).json({ error: 'user not found' });
+                        res.status(200).send({
+                            message: 'login success',
+                            token: token
+                        });
+                    });
+                } else {
+                    res.status(401).send({
+                        message: 'wrong password'
+                    });
                 }
 
-                let decode_pw = hash.decoding(data[0].password);
-
-                await user.find({
-                    password: decode_pw
-                }, function (err, obj) {
-                    if (err) {
-                        res.status(401).send({
-                            message: 'wrong password'
-                        });
-                    } else {
-                        if (obj.length == 0) {
-                            res.status(401).send({
-                                message: 'wrong password'
-                            });
-                        } else {
-                            const token = jwt.sign(data[0].user_idx);
-
-                            user.update({ _id: data[0].user_idx }, { $set: { 'fcm_token': fcm_token } }, function (err, output) {
-                                if (err) res.status(500).json({ error: 'database failure' });
-                                if (!output.n) return res.status(404).json({ error: 'user not found' });
-                                res.status(200).json({
-                                    message: 'login success',
-                                    token: token
-                                });
-                            })
-                        }
-
-                    }
-                });
             }
         }
-    })
+
+    });
+
 });
 
 module.exports = router;

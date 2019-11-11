@@ -11,7 +11,7 @@ router.use('/sensor', getSensor);
 
 //deleteEmergency
 const sendOK = require('./sendOK');
-router.use('/sendoK', sendOK);
+router.use('/sendOK', sendOK);
 
 
 module.exports = router;
