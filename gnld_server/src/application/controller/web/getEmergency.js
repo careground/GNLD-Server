@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 let user = require('../../model/schema/user');
 let monitor = require('../../model/schema/monitor');
-const db = require('../../module/pool.js');
 
 router.get('/', function (req, res) {
 	user_id = "";
