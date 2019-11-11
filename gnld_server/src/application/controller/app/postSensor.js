@@ -31,7 +31,7 @@ router.post('/', async (req, res, next) => {
             else {
                 if(pots.soil_water<35){ soil_water_status = "위험"; push.soil_water(ID); }
                 if(pots.co_gas>=10){ co_gas_status = "위험"; push.co_gas(ID); }
-                if(pots.fine_dust>=50){ fine_dust_status = "위험"; push.fine_dust(ID); }
+                if(pots.fine_dust>=100){ fine_dust_status = "위험"; push.fine_dust(ID); }
                 if(co_gas_status == "위험" || soil_water_status == "위험" || fine_dust == "위험"){
                     await monitor.find({
                         user_id : pots.user_id
