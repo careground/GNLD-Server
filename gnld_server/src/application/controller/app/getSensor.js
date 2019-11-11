@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         }, async function (err, pots) {
             if (err) {
                 return res.status(500).send({
-                    message: "get users'list fail"
+                    message: "get data fail"
                 });
             } else {
                 for (let i = 0; i < pots.length; i++) {
