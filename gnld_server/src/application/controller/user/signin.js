@@ -32,8 +32,11 @@ router.post('/', async (req, res, next) => {
             }
             console.log(data)
 
+            let decode_pw = hash.decoding(data[0].password);
+            console.log(decode_pw);
+
             await user.find({
-                password: hash.decoding(data[0].password)
+                password: decode_pw
             }, function (err, obj) {
                 if (err) {
                     res.status(401).send({

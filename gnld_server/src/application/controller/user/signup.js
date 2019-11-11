@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
             });
             return;
         } else {
-            res.status(202).send({
+            res.status(200).send({
                 message: "success"
             });
         }

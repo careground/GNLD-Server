@@ -5,6 +5,10 @@ const router = express.Router();
 const postSensor = require('./postSensor');
 router.use('/sensor', postSensor);
 
+//getSensor
+const getSensor = require('./getSensor');
+router.use('/sensor', getSensor);
+
 //deleteEmergency
 const sendOK = require('./sendOK');
 router.use('/sendoK', sendOK);

@@ -13,7 +13,7 @@ router.delete('/', async (req, res) => {
             if (err) {
                 return res.status(500).send({ message: 'database failure' });
             } else {
-                res.status(201).send({
+                res.status(200).send({
                     message: "success"
                 });
             }
