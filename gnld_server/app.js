@@ -5,14 +5,19 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('./src/config/secretKey');
 var hash = require('./src/config/hashKey');
-
+var helmet = require('helmet');
 var routes = require('./src/application/routes');
 
 var mongoose = require('./src/config/mongoose.js');
 mongoose();
 
+//cors
+const cors = require('cors');
 
 var app = express();
+
+app.use(cors());
+app.use(helmet());
 
 //jwt 토큰 키
 app.set('jwt-secret', config.key);

@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
         }, async function (err, pots) {
             if (err) {
                 res.status(405).send({
-                    message: "fail"
+                    message: "smart pot fail"
                 });
                 return;
             }
@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
                     }, async function (err, monitors) {
                         if (err) {
                             res.status(405).send({
-                                message: "fail"
+                                message: "monitor fail"
                             });
                         } else {
                             console.log(monitors)

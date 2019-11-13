@@ -13,12 +13,14 @@ router.get('/', async (req, res) => {
             for (let i = 0; i < users.length; i++) {
 
                 let temp = {
+                user_id: "",
                   name:"",
                   birth : "",
                   address : "",
                   phone : "",
                   emergency_phone : ""
                 }
+                temp.user_id = users[i]._id;
                 temp.name = users[i].name;
                 temp.birth = users[i].birth;
                 temp.address = users[i].address;

@@ -26,12 +26,14 @@ router.get('/', function (req, res) {
 						for (let j = 0; j < users.length; j++) {
 
 							let temp = {
+								user_id: "",
 								name: "",
 								birth: "",
 								address: "",
 								phone: "",
 								emergency_phone: ""
 							}
+							temp.user_id = users[i]._id;
 							temp.name = users[j].name;
 							temp.birth = users[j].birth;
 							temp.address = users[j].address;
