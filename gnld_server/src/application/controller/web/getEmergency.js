@@ -14,7 +14,6 @@ router.get('/', function (req, res) {
 			});
 		} else {
 			for (let i = 0; i < result.length; i++) {
-				console.log(result[i].user_id);
 				await user.find({
 					_id: result[i].user_id
 				}, async function (err, users) {
@@ -23,26 +22,26 @@ router.get('/', function (req, res) {
 							message: "get users'list fail"
 						});
 					} else {
-						for (let j = 0; j < users.length; j++) {
 
-							let temp = {
-								user_id: "",
-								name: "",
-								birth: "",
-								address: "",
-								phone: "",
-								emergency_phone: ""
-							}
-							temp.user_id = users[i]._id;
-							temp.name = users[j].name;
-							temp.birth = users[j].birth;
-							temp.address = users[j].address;
-							temp.phone = users[j].phone;
-							temp.emergency_phone = users[j].emergency_phone;
-
-							data.push(temp);
+						let temp = {
+							user_id: "",
+							name: "",
+							birth: "",
+							address: "",
+							phone: "",
+							emergency_phone: ""
 						}
+						temp.user_id = users[0]._id;
+						temp.name = users[0].name;
+						temp.birth = users[0].birth;
+						temp.address = users[0].address;
+						temp.phone = users[0].phone;
+						temp.emergency_phone = users[0].emergency_phone;
+						//
+
+						data.push(temp);
 					}
+
 				}); // user.find
 			}
 			res.status(200).send({
